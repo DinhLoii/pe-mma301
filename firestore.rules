@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function canonical(d) {
+      return d.userId + '_' + d.title.trim().lower().toUtf8().toHexString().lower()
+        + '_' + d.author.trim().lower().toUtf8().toHexString().lower();
+    }
+    function valid(d, bookId) {
+      return d.keys().hasAll(['id', 'userId', 'title', 'author', 'genre', 'status', 'favorite', 'createdAt'])
+        && d.keys().hasOnly(['id', 'userId', 'title', 'author', 'genre', 'status', 'rating', 'favorite', 'notes', 'createdAt'])
+        && d.id == bookId && d.userId == request.auth.uid
+        && d.title is string && d.title.trim().size() > 0 && d.title.size() <= 100
+        && d.author is string && d.author.trim().size() > 0 && d.author.size() <= 60
+        && d.genre in ['Fiction', 'Non-Fiction', 'Academic', 'Other']
+        && d.status in ['To Read', 'Reading', 'Finished']
+        && (!('rating' in d) || d.rating == null || (d.rating is int && d.rating >= 0 && d.rating <= 5))
+        && (!('notes' in d) || (d.notes is string && d.notes.size() <= 300))
+        && d.favorite is bool && d.createdAt is timestamp
+        && bookId == canonical(d);
+    }
+    match /books/{bookId} {
+      // Missing canonical documents must be readable by their owner for create transactions.
+      allow get: if signedIn() && bookId.matches(request.auth.uid + '_.*');
+      allow list: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && valid(request.resource.data, bookId);
+      allow update: if signedIn() && resource.data.userId == request.auth.uid
+        && valid(request.resource.data, bookId)
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

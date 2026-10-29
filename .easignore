@@ -1,0 +1,14 @@
+node_modules/
+.expo/
+.git/
+dist*/
+.env
+.env.*
+!.env.example
+submission/
+submission.local.json
+screenshots/
+tests/
+*.apk
+*.zip
+*-debug.log*

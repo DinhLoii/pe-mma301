@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "BookShelf",
+    "slug": "pe-mma301",
+    "owner": "dinhloii",
+    "scheme": "pemma301",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.dinhloii.pemma301"
+    },
+    "web": {
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fd09ea6b-cc28-4247-b71f-f347cf6ed014"
+      }
+    }
+  }
+}
