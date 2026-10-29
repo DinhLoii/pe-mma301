@@ -18,7 +18,6 @@
     "deploy:web": "npm run export:web && firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore:rules",
     "setup:eas-env": "node scripts/eas-env.mjs",
-    "seed": "node --env-file=.env scripts/seed.mjs",
     "package:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-submission.ps1"
   },
   "dependencies": {
