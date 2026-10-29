@@ -10,7 +10,7 @@ Use Node 22.13 or newer. Run `npm install`, copy `.env.example` to `.env`, enter
 
 ## Deployment
 
-`npx eas login`, `npx eas init`, then `npm run setup:eas-env` syncs local public client settings to the EAS preview environment. `npm run build:apk` makes a durable Android APK build. Use its exact completed build URL in the report. If the exam changes, make a new build after the final changes; an old APK will not include them.
+`npx --yes eas-cli@27.1.0 login`, `npx --yes eas-cli@27.1.0 init`, then `npm run setup:eas-env` syncs local public client settings to the EAS preview environment. `npm run build:apk` makes a durable Android APK build. Use its exact completed build URL in the report. If the exam changes, make a new build after the final changes; an old APK will not include them.
 
 `npx firebase login` and `npm run deploy:rules` publishes the database rules. `npm run deploy:web` is an optional durable web preview on Firebase Hosting. A web URL or Expo project homepage does not replace the required APK/build link.
 

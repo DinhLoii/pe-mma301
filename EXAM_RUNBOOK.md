@@ -4,7 +4,7 @@
 
 1. Chạy `npm install` và `npm run check` trong thư mục này. Mở app trên điện thoại bằng `npx expo start`.
 2. Firebase: bật Authentication → Email/Password; tạo Firestore database mặc định. Chạy `npx firebase login`, rồi `npm run deploy:rules`. Không chọn test mode mở toàn bộ dữ liệu.
-3. Expo: kiểm tra `npx eas whoami`; project riêng phải là `pe-mma301`, không dùng project assignment cũ. Chạy `npm run setup:eas-env`, rồi `npm run build:apk`.
+3. Expo: kiểm tra `npx --yes eas-cli@27.1.0 whoami`; project riêng phải là `pe-mma301`, không dùng project assignment cũ. Chạy `npm run setup:eas-env`, rồi `npm run build:apk`.
 4. Đăng ký tài khoản chấm bài trong app, điền email/password vào `submission.local.json` (copy từ `submission.example.json`). Chạy `npm run seed` để tạo 5 sách mẫu bằng chính quyền của tài khoản này. Đăng nhập lại bằng tài khoản đó trên app.
 5. Kiểm tra repo GitHub public và cài được APK trên điện thoại. Link EAS phải có build đã hoàn thành.
 
@@ -41,7 +41,7 @@ Chỉ dùng ảnh thật từ điện thoại/emulator. Web preview không thay 
 21 Delete — after
 22 Empty state — second fresh account
 
-Lưu ảnh trong `screenshots/`. Xem `scripts/create-report.py` để tự ghép ảnh thật theo manifest. Không đưa tài khoản/mật khẩu chấm bài vào GitHub public.
+Lưu ảnh trong `screenshots/`. Copy `scripts/screenshots.manifest.example.json` thành `screenshots/manifest.json`, giữ lại đúng các ảnh thật đã chụp. Cài thư viện bằng `python -m pip install python-docx Pillow`, rồi chạy `python scripts/create-report.py` để tự ghép báo cáo có caption. `python scripts/create-report.py --template` tạo bản mẫu để điền dần. Mở Word kiểm tra trang, ảnh và URL trước khi nộp. Không đưa tài khoản/mật khẩu chấm bài vào GitHub public.
 
 ## Nộp bài
 
