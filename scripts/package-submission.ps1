@@ -15,7 +15,7 @@ $taskArchive = [System.IO.Compression.ZipFile]::Open($taskTemp, [System.IO.Compr
 try {
   foreach ($taskRel in $taskFiles) {
     $taskFull = Join-Path $taskRoot $taskRel
-    if (!(Test-Path -LiteralPath $taskFull)) { throw "Missing required source file: $taskRel" }
+    if (!(Test-Path -LiteralPath $taskFull)) { if ($taskRel -eq 'expo-env.d.ts') { continue }; throw "Missing required source file: $taskRel" }
     [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($taskArchive, $taskFull, $taskRel) | Out-Null
   }
   foreach ($taskFolder in $taskFolders) {
