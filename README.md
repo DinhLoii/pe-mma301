@@ -31,3 +31,7 @@ Firebase project: `pe-mma301-522a4`. Expo project: `@dinhloii/pe-mma301`. **Ch�
 `firestore.rules` local là deny-all. Khi có đề thật, viết rules đúng collection và validation trước khi dùng factory CRUD. Không tự publish rules khung này. Các lệnh deploy chỉ là cấu hình sẵn, không chạy tự động.
 
 Đọc `EXAM_RUNBOOK.md` khi nhận đề. Thông tin cục bộ nằm trong `submission.local.json`, không nằm trên GitHub.
+
+## License
+
+MIT License. See LICENSE for the full terms and copyright notices, including the Expo starter attribution. Third-party dependencies retain their own licenses.

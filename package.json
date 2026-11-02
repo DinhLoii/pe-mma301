@@ -49,5 +49,12 @@
     "eslint-config-expo": "~57.0.2",
     "firebase-tools": "^15.0.0",
     "typescript": "~6.0.3"
+  },
+  "license": "MIT",
+  "author": "Dinh Van Loi",
+  "description": "Reusable Expo and React Native starter for MMA301 practical exams",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinhLoii/pe-mma301.git"
   }
 }
