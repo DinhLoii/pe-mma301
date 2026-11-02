@@ -42,7 +42,7 @@ fields = [
     ('Student Code', settings['studentCode']),
     ('Full Name', settings['fullName']),
     ('GitHub Repository URL', settings['githubUrl']),
-    ('Expo Project Link', settings.get('expoBuildUrl') or '[Add completed EAS build URL]'),
+    ('Expo Project Link', settings.get('expoBuildUrl') or settings.get('expoProjectUrl') or '[Add completed EAS build URL]'),
     ('Firebase Project ID', settings['firebaseProjectId']),
     ('Test account email', settings.get('testEmail') or '[Add existing test account email]'),
     ('Test account password', settings.get('testPassword') or '[Add test account password]'),

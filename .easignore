@@ -12,3 +12,5 @@ tests/
 *.apk
 *.zip
 *-debug.log*
+
+QE190167/
