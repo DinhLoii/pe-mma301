@@ -22,7 +22,9 @@ Firebase project: `pe-mma301-522a4`. Expo project: `@dinhloii/pe-mma301`. **Ch�
 
 - `npm run check`: TypeScript, lint, kiểm tra validation Auth.
 - `npm run test:rules`: rules local trong emulator, cần Java 21+.
-- `npm run package:submission`: tạo ZIP source sạch, không deploy.
+- `npm run package:submission`: tạo ZIP source mới trong QE190167/, không deploy.
+- `npm run check:submission -- -Template`: kiểm tra source ZIP khớp source hiện tại và cấu trúc bộ mẫu.
+- `npm run check:submission`: chặn nộp Word còn placeholder, thiếu ảnh hoặc link build.
 - `npm run build:apk`: chỉ build APK khi cần.
 - `npm run deploy:rules` / `npm run deploy:web`: chỉ dùng khi bạn yêu cầu xuất bản.
 

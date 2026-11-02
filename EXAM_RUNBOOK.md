@@ -32,3 +32,27 @@ Chỉ chuẩn bị source khung và cấu hình. Chưa chốt nghiệp vụ, mod
 ## Thông tin nộp bài
 
 `submission.example.json` không có mật khẩu hay link build giả. `submission.local.json` giữ thông tin riêng ở máy. Có thể chạy `python scripts/create-report.py --template` sau khi cài `python-docx` và `Pillow`, rồi mở Word kiểm tra trước khi nộp. Không tạo báo cáo hoàn chỉnh khi chưa có đề và ảnh thật.
+
+## Quy trình chốt bộ nộp bài
+
+- `npm run package:submission` ghi ZIP mới trực tiếp vào `QE190167/QE190167.zip`.
+- `npm run check:submission -- -Template` kiểm tra bộ mẫu, so từng file trong ZIP với source hiện tại.
+- `npm run check:submission` kiểm tra trước khi nộp thật. Lệnh từ chối Word còn placeholder, thiếu ảnh hoặc chỉ có link trang project thay vì build APK.
+- `python scripts/create-report.py` tạo báo cáo cuối trực tiếp trong thư mục `QE190167/`; cần cài python-docx và Pillow. Chế độ `--template` tiếp tục xuất bản nháp ở `submission/` để không ghi đè Word đang hoàn thiện.
+- Folder `QE190167/` là folder nộp; `submission/` chỉ là dữ liệu chuẩn bị cũ/nháp. Không nộp bản ZIP cũ ở đó.
+
+## Đối chiếu đề tương tự trial khi nhận đề thật
+
+Ưu tiên đủ chức năng bắt buộc trước khi thêm tiện ích: Home đúng nội dung; Auth và thông báo đúng từng ký tự; bảo vệ route; CRUD cập nhật tức thì và tồn tại sau khởi động; dữ liệu riêng của mỗi user; sắp xếp, bộ lọc, tìm kiếm và thống kê kết hợp; Detail, sửa, favorite và xóa có xác nhận; empty/loading/error state; màn hình điện thoại không bị cắt.
+
+Firestore phải kiểm tra cả create và update, quyền sở hữu, kiểu/giới hạn trường và chống trùng tại database theo yêu cầu cụ thể. Không thể thay việc này bằng validation của form hoặc rules chỉ kiểm tra đăng nhập. Khi chưa có schema thật, rules khung vẫn đóng.
+
+Giữ nguyên tên collection, fields, visible text và testID đúng đề thật. Chạy thử hai tài khoản, dữ liệu sai gửi trực tiếp, duplicate và persistence trước khi chốt. Chỉ chụp ảnh chức năng thật từ điện thoại/emulator; kiểm tra captions, link build và tài khoản chấm bài trước khi nộp.
+
+Component `src/components/ConfirmDialog.tsx` đã có sẵn để tái sử dụng cho bước xác nhận xóa; chưa gắn với nghiệp vụ nào.
+
+## Kiểm chứng Android trước thi
+
+APK khung 00eebffc-e51c-4508-b224-94b73eac7940 đã cài và mở thành công trên emulator Pixel_6a. Đây là kiểm tra Home/khởi động, chưa chứng minh các luồng nghiệp vụ của đề thật. Bản build này dùng commit 303b3c2; helper nộp bài bổ sung sau đó cần có trong source cuối, và khi sửa chức năng phải build lại APK.
+
+Build khung đo được khoảng 22 phút riêng thời gian build, chưa tính các tình huống chờ hàng đợi hay sửa lỗi. Với bài thi 80 phút, cần triển khai các luồng bắt buộc và bắt đầu build sớm khi bản cần nộp đã ổn, đồng thời chuẩn bị ảnh/báo cáo trong lúc chờ. Không hứa thời gian hoàn thành hoặc điểm số tuyệt đối.

@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from docx import Document
 from docx.shared import Inches, Pt
-from docx.enum.text import WD_BREAK
+from urllib.parse import urlparse
 
 root = Path(__file__).resolve().parent.parent
 settings = json.loads((root / 'submission.local.json').read_text(encoding='utf-8-sig'))
@@ -20,8 +20,9 @@ if not template:
     for key in ('expoBuildUrl', 'testEmail', 'testPassword'):
         if not settings.get(key):
             raise SystemExit(f'Missing {key} in submission.local.json')
-    if not settings['expoBuildUrl'].startswith('https://'):
-        raise SystemExit('Expo build URL must begin with https://')
+    build_url = urlparse(settings['expoBuildUrl'])
+    if build_url.scheme != 'https' or build_url.netloc != 'expo.dev' or not any(part in build_url.path for part in ('/builds/', '/artifacts/')):
+        raise SystemExit('Use a completed Expo APK/build URL, not the project homepage')
     if not manifest:
         raise SystemExit('Add genuine screenshot paths and captions to screenshots/manifest.json first')
     for item in manifest:
@@ -65,7 +66,7 @@ for item in manifest:
     if item.get('note'):
         doc.add_paragraph(item['note'])
 
-out = root / 'submission'
+out = root / ('submission' if template else settings['studentCode'])
 out.mkdir(exist_ok=True)
 filename = settings['studentCode'] + ('-template.docx' if template else '.docx')
 doc.save(out / filename)

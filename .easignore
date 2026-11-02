@@ -14,3 +14,5 @@ tests/
 *-debug.log*
 
 QE190167/
+
+artifacts/
