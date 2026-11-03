@@ -2,8 +2,16 @@ import { PropsWithChildren, ReactNode, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const colors = { ink: '#192b2a', muted: '#5b6d66', accent: '#246653', paper: '#f6f5ee', border: '#d5ded5', danger: '#a72e30' };
+export const colors = { ink: '#252520', muted: '#716d64', accent: '#a8442a', paper: '#f6f3ec', border: '#e2ddd2', danger: '#a72e30' };
 export const styles = StyleSheet.create({
+  brand: { fontSize: 24, fontWeight: '800', letterSpacing: -1, color: '#252520' },
+  hero: { backgroundColor: '#292d29', borderRadius: 22, padding: 26, gap: 12 },
+  eyebrow: { fontSize: 11, letterSpacing: 2, fontWeight: '700', color: '#eab99b' },
+  heroTitle: { fontSize: 37, lineHeight: 43, letterSpacing: -1.5, fontWeight: '700', color: '#fff9ef' },
+  heroText: { fontSize: 16, lineHeight: 25, color: '#d5d7ce' },
+  badge: { overflow: 'hidden', borderRadius: 7, backgroundColor: '#f1e7db', color: '#74402b', paddingHorizontal: 10, paddingVertical: 6, fontSize: 12, fontWeight: '600' },
+  stat: { flex: 1, paddingVertical: 10 },
+  statNumber: { fontSize: 32, fontWeight: '700', color: '#a8442a' },
   page: { flex: 1, backgroundColor: colors.paper },
   content: { width: '100%', maxWidth: 640, alignSelf: 'center', padding: 20, gap: 18, paddingBottom: 60 },
   title: { fontSize: 30, fontWeight: '700', color: colors.ink },
@@ -21,13 +29,13 @@ export function Page({ children, testID }: PropsWithChildren<{ testID?: string }
   return <SafeAreaView style={styles.page}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}><ScrollView testID={testID} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>{children}</ScrollView></KeyboardAvoidingView></SafeAreaView>;
 }
 export function Button({ label, onPress, disabled, secondary, testID }: { label: string; onPress: () => void; disabled?: boolean; secondary?: boolean; testID?: string }) {
-  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} onPress={onPress} style={({ pressed }) => ({ backgroundColor: secondary ? '#e8eee7' : colors.accent, opacity: disabled ? 0.5 : pressed ? 0.75 : 1, paddingVertical: 13, paddingHorizontal: 17, borderRadius: 10, minHeight: 48, justifyContent: 'center' })}><Text style={{ color: secondary ? colors.ink : '#fff', fontWeight: '600', textAlign: 'center', fontSize: 15 }}>{label}</Text></Pressable>;
+  return <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} disabled={disabled} onPress={onPress} style={({ pressed }) => ({ backgroundColor: secondary ? '#ede9df' : colors.accent, opacity: disabled ? 0.5 : pressed ? 0.75 : 1, paddingVertical: 13, paddingHorizontal: 17, borderRadius: 10, minHeight: 48, justifyContent: 'center' })}><Text style={{ color: secondary ? colors.ink : '#fff', fontWeight: '600', textAlign: 'center', fontSize: 15 }}>{label}</Text></Pressable>;
 }
 export function Field({ label, error, testID, labelAction, ...props }: TextInputProps & { label: string; error?: string; labelAction?: ReactNode }) {
   return <View style={{ gap: 6 }}><View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Text style={styles.label}>{label}</Text>{labelAction}</View><TextInput {...props} testID={testID} accessibilityLabel={label} style={[styles.input, props.multiline && { minHeight: 90, textAlignVertical: 'top' }]} placeholderTextColor={colors.muted} />{error ? <Text testID={`error-${testID}`} accessibilityLiveRegion="polite" style={styles.error}>{error}</Text> : null}</View>;
 }
-export function Select({ label, value, options, onChange, error, testID }: { label: string; value: string; options: readonly string[]; onChange: (v: string) => void; error?: string; testID: string }) {
+export function Select({ label, value, options, onChange, error, testID, disabled }: { label: string; value: string; options: readonly string[]; onChange: (v: string) => void; error?: string; testID: string; disabled?: boolean }) {
   const [open, setOpen] = useState(false);
-  return <View style={{ gap: 6 }}><Text style={styles.label}>{label}</Text><Pressable testID={testID} accessibilityRole="button" accessibilityLabel={`${label}: ${value || `Choose ${label.toLowerCase()}`}`} style={styles.input} onPress={() => setOpen(true)}><Text style={styles.text}>{value || `Choose ${label.toLowerCase()}`} ▾</Text></Pressable>{error ? <Text testID={`error-${testID}`} accessibilityLiveRegion="polite" style={styles.error}>{error}</Text> : null}<Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}><View style={{ flex: 1, backgroundColor: '#0007', justifyContent: 'center', padding: 24 }}><View style={styles.card}><Text style={styles.heading}>{label}</Text><ScrollView>{options.map(option => <Pressable key={option} accessibilityRole="button" accessibilityLabel={option || `Choose ${label.toLowerCase()}`} onPress={() => { onChange(option); setOpen(false); }} style={{ paddingVertical: 14 }}><Text style={styles.text}>{option || `Choose ${label.toLowerCase()}`}</Text></Pressable>)}</ScrollView><Button label="Close" secondary onPress={() => setOpen(false)} /></View></View></Modal></View>;
+  return <View style={{ gap: 6 }}><Text style={styles.label}>{label}</Text><Pressable testID={testID} accessibilityRole="button" accessibilityLabel={`${label}: ${value || `Choose ${label.toLowerCase()}`}`} disabled={disabled} style={[styles.input, disabled && { opacity: 0.5 }]} onPress={() => setOpen(true)}><Text style={styles.text}>{value || `Choose ${label.toLowerCase()}`} â–¾</Text></Pressable>{error ? <Text testID={`error-${testID}`} accessibilityLiveRegion="polite" style={styles.error}>{error}</Text> : null}<Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}><View style={{ flex: 1, backgroundColor: '#0007', justifyContent: 'center', padding: 24 }}><View style={styles.card}><Text style={styles.heading}>{label}</Text><ScrollView>{options.map(option => <Pressable key={option} accessibilityRole="button" accessibilityLabel={option || `Choose ${label.toLowerCase()}`} onPress={() => { onChange(option); setOpen(false); }} style={{ paddingVertical: 14 }}><Text style={styles.text}>{option || `Choose ${label.toLowerCase()}`}</Text></Pressable>)}</ScrollView><Button label="Close" secondary onPress={() => setOpen(false)} /></View></View></Modal></View>;
 }
 export function Busy() { return <SafeAreaView style={[styles.page, { justifyContent: 'center', alignItems: 'center' }]}><ActivityIndicator accessibilityLabel="Loading" color={colors.accent} size="large" /></SafeAreaView>; }

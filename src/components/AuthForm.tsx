@@ -4,7 +4,7 @@ import { Redirect, router } from 'expo-router';
 import { Keyboard, Text, View } from 'react-native';
 import { auth } from '@/config/firebase';
 import { useSession } from '@/context/Session';
-import { AuthValues, authErrorMessage, validateAuth } from '@/domain/auth';
+import { AuthValues, errorMessage, validateAuth } from '@/domain/auth';
 import { PasswordField } from './PasswordField';
 import { Button, Busy, Field, Page, styles } from './ui';
 
@@ -40,10 +40,10 @@ export function AuthForm({ register = false }: { register?: boolean }) {
         setSuccess(true);
       } else {
         await signInWithEmailAndPassword(auth, values.email.trim(), values.password);
-        router.replace('/workspace');
+        router.replace('/list');
       }
     } catch (e) {
-      setError(authErrorMessage(e));
+      setError(errorMessage(e));
     } finally {
       pending.current = false;
       setBusy(false);
@@ -57,14 +57,14 @@ export function AuthForm({ register = false }: { register?: boolean }) {
 
   return (
     <Page testID={register ? 'register-screen' : 'login-screen'}>
-      <Text style={styles.muted}>PE STARTER</Text>
+      <Text style={styles.muted}>CINELIST</Text>
       <Text style={styles.title}>{register ? 'Register' : 'Login'}</Text>
-      <Text style={styles.muted}>{register ? 'Create your account to get started.' : 'Welcome back. Sign in to your workspace.'}</Text>
+      <Text style={styles.muted}>{register ? 'Create your account to get started.' : 'Welcome back. Sign in to your watchlist.'}</Text>
       {success ? (
         <View style={styles.card}>
           <Text testID="form-success" accessibilityLiveRegion="polite" style={styles.success}>Registration successful</Text>
           <Text style={styles.text}>{values.email.trim()}</Text>
-          <Button testID="continue-button" label="Continue" onPress={() => router.replace('/workspace')} />
+          <Button testID="continue-button" label="Continue" onPress={() => router.replace('/list')} />
         </View>
       ) : (
         <View style={styles.card}>
@@ -80,11 +80,11 @@ export function AuthForm({ register = false }: { register?: boolean }) {
             autoComplete="new-password" returnKeyType="go" onSubmitEditing={submit} /> : null}
           {error || sessionError ? <Text testID="error-auth" accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.error}>{error || sessionError}</Text> : null}
           <Button testID={register ? 'register-button' : 'login-button'}
-            label={busy ? 'Please wait…' : register ? 'Register' : 'Login'} onPress={submit} disabled={busy || Boolean(user)} />
+            label={busy ? 'Please waitâ€¦' : register ? 'Register' : 'Login'} onPress={submit} disabled={busy || Boolean(user)} />
         </View>
       )}
-      <Button label={user ? 'Go to Workspace' : 'Back to Home'} secondary disabled={busy}
-        onPress={() => router.replace(user ? '/workspace' : '/')} />
+      <Button label={user ? 'Go to List' : 'Back to Home'} secondary disabled={busy}
+        onPress={() => router.replace(user ? '/list' : '/')} />
       {!user ? <Button label={register ? 'Already have an account? Login' : 'Create an account'} secondary
         disabled={busy} onPress={() => router.replace(register ? '/login' : '/register')} /> : null}
     </Page>

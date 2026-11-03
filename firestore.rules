@@ -1,8 +1,38 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Local starting point. Add the real collection, ownership and field
-    // validation after reading the actual exam. Do not deploy this template yet.
+    function signedIn() { return request.auth != null; }
+    function ownId(id) { return signedIn() && id[0:request.auth.uid.size()+1] == request.auth.uid + '_'; }
+    // Match Vietnamese case folding in JavaScript as well as ASCII.
+    function fold0(v) { return v.lower().replace('À', 'à').replace('Á', 'á').replace('Â', 'â').replace('Ã', 'ã').replace('È', 'è').replace('É', 'é').replace('Ê', 'ê').replace('Ì', 'ì').replace('Í', 'í').replace('Ò', 'ò').replace('Ó', 'ó').replace('Ô', 'ô').replace('Õ', 'õ').replace('Ù', 'ù').replace('Ú', 'ú').replace('Ý', 'ý').replace('Ă', 'ă').replace('Đ', 'đ').replace('Ĩ', 'ĩ').replace('Ũ', 'ũ').replace('Ơ', 'ơ').replace('Ư', 'ư').replace('Ạ', 'ạ').replace('Ả', 'ả'); }
+    function fold1(v) { return fold0(v).replace('Ấ', 'ấ').replace('Ầ', 'ầ').replace('Ẩ', 'ẩ').replace('Ẫ', 'ẫ').replace('Ậ', 'ậ').replace('Ắ', 'ắ').replace('Ằ', 'ằ').replace('Ẳ', 'ẳ').replace('Ẵ', 'ẵ').replace('Ặ', 'ặ').replace('Ẹ', 'ẹ').replace('Ẻ', 'ẻ').replace('Ẽ', 'ẽ').replace('Ế', 'ế').replace('Ề', 'ề').replace('Ể', 'ể').replace('Ễ', 'ễ').replace('Ệ', 'ệ').replace('Ỉ', 'ỉ').replace('Ị', 'ị').replace('Ọ', 'ọ').replace('Ỏ', 'ỏ').replace('Ố', 'ố').replace('Ồ', 'ồ'); }
+    function fold2(v) { return fold1(v).replace('Ổ', 'ổ').replace('Ỗ', 'ỗ').replace('Ộ', 'ộ').replace('Ớ', 'ớ').replace('Ờ', 'ờ').replace('Ở', 'ở').replace('Ỡ', 'ỡ').replace('Ợ', 'ợ').replace('Ụ', 'ụ').replace('Ủ', 'ủ').replace('Ứ', 'ứ').replace('Ừ', 'ừ').replace('Ử', 'ử').replace('Ữ', 'ữ').replace('Ự', 'ự').replace('Ỳ', 'ỳ').replace('Ỵ', 'ỵ').replace('Ỷ', 'ỷ').replace('Ỹ', 'ỹ'); }
+    function canonical(d) {
+      return request.auth.uid + '_' + fold2(d.title.trim()).toUtf8().toHexString().lower()
+        + '_' + fold2(d.director.trim()).toUtf8().toHexString().lower();
+    }
+    function valid(d, id) {
+      return d.keys().hasAll(['id', 'userId', 'title', 'director', 'genre', 'status', 'favorite', 'createdAt'])
+        && d.keys().hasOnly(['id', 'userId', 'title', 'director', 'genre', 'status', 'rating', 'favorite', 'notes', 'createdAt'])
+        && d.userId == request.auth.uid && d.id == id
+        && d.title is string && d.title.trim().size() > 0 && d.title.size() <= 100
+        && d.director is string && d.director.trim().size() > 0 && d.director.size() <= 60
+        && d.genre in ['Action', 'Comedy', 'Drama', 'Horror']
+        && d.status in ['Plan to Watch', 'Watching', 'Watched']
+        && d.favorite is bool && d.createdAt is timestamp && d.createdAt <= request.time
+        && (!('rating' in d) || (d.rating is int && d.rating >= 0 && d.rating <= 5))
+        && (!('notes' in d) || (d.notes is string && d.notes.size() <= 300))
+        && id == canonical(d);
+    }
+    match /movies/{movieId} {
+      // Allows transactions to check an as-yet nonexistent canonical target.
+      allow get: if ownId(movieId) && (!exists(/databases/$(database)/documents/movies/$(movieId)) || resource.data.userId == request.auth.uid);
+      allow list: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && valid(request.resource.data, movieId);
+      allow update: if signedIn() && resource.data.userId == request.auth.uid
+        && valid(request.resource.data, movieId) && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }

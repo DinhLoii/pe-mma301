@@ -10,7 +10,7 @@
     "lint": "expo lint",
     "type-check": "tsc --noEmit",
     "check": "npm run type-check && npm run lint && npm run test:unit",
-    "test:unit": "node --experimental-strip-types --test tests/domain.test.ts",
+    "test:unit": "node --experimental-strip-types --test tests/domain.test.ts tests/movies.test.ts",
     "test:rules": "firebase emulators:exec --only firestore --project demo-pe-mma301 \"node --test tests/firestore.test.mjs\"",
     "build:apk": "npx --yes eas-cli@27.1.0 build --platform android --profile preview",
     "build:list": "npx --yes eas-cli@27.1.0 build:list --platform android --limit 3",
@@ -53,7 +53,7 @@
   },
   "license": "MIT",
   "author": "Dinh Van Loi",
-  "description": "Reusable Expo and React Native starter for MMA301 practical exams",
+  "description": "CineList private movie watchlist for the MMA301 practical exam",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DinhLoii/pe-mma301.git"
