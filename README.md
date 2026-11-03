@@ -21,6 +21,7 @@ Firebase project: `pe-mma301-522a4`. Expo project: `@dinhloii/pe-mma301`. **Ch�
 ## Lệnh có sẵn
 
 - `npm run check`: TypeScript, lint, kiểm tra validation Auth.
+- `npm run test:auth`: kiểm tra Firebase Auth SDK với emulator cục bộ, không tạo tài khoản trên project thật.
 - `npm run test:rules`: rules local trong emulator, cần Java 21+.
 - `npm run package:submission`: tạo ZIP source mới trong QE190167/, không deploy.
 - `npm run check:submission -- -Template`: kiểm tra source ZIP khớp source hiện tại và cấu trúc bộ mẫu.
@@ -35,3 +36,32 @@ Firebase project: `pe-mma301-522a4`. Expo project: `@dinhloii/pe-mma301`. **Ch�
 ## License
 
 MIT License. See LICENSE for the full terms and copyright notices, including the Expo starter attribution. Third-party dependencies retain their own licenses.
+
+## Authentication scaffold
+
+Login/Register use Firebase Email/Password, validate on submit, show field errors,
+support show/hide password, and prevent duplicate requests. Registration keeps a
+success screen until Continue. Already signed-in users go to Workspace. Logout
+clears the Firebase session; Android restores sessions via AsyncStorage.
+
+Before the exam, verify on the target phone/emulator:
+1. Submit empty/invalid registration, then register a new test account.
+2. Continue to Workspace and confirm the displayed email.
+3. Close/reopen the app and confirm the session is restored.
+4. Logout; opening Workspace must redirect to Home.
+5. Try wrong credentials, then login correctly. Try registering an existing email.
+6. Disconnect the network and confirm an error appears and retry works.
+
+The exam may require different text, password rules, routes or testIDs; adjust
+them against the actual specification. Existing APK/QR refers to the earlier
+starter build and does not include subsequent source changes until rebuilt.
+
+## Commit conventions
+
+All new commits follow `<type>(<optional scope>): <description>`, for example
+`feat(auth): add password visibility controls`. Keep each commit focused on one
+logical change. Use lowercase English imperative descriptions without a trailing
+period. Use `!` or a `BREAKING CHANGE:` footer for breaking changes.
+
+Supported types: feat, fix, docs, style, refactor, perf, test, build, ops, chore.
+See `.cursor/rules/conventional-commits.mdc` for the full project rule.

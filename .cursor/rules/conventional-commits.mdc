@@ -1,0 +1,25 @@
+---
+description: Use Conventional Commits for every commit in this repository
+alwaysApply: true
+---
+
+# Conventional Commits
+
+- Format: `<type>(<optional scope>): <description>`.
+- Allowed types: feat, fix, docs, style, refactor, perf, test, build, ops, chore.
+- Use a meaningful scope such as auth, ui, firebase, ci, or workflow when useful.
+- Write descriptions in English, imperative present tense, starting lowercase, without a trailing period.
+- Keep each commit focused on one logical change. Include its necessary tests.
+- Split unrelated features, bug fixes, infrastructure changes, and documentation into separate commits.
+- Explain motivation and behavior in an optional body; use footers for issue references.
+- For breaking changes, add `!` before `:` or a `BREAKING CHANGE:` footer explaining the impact.
+- Do not use issue IDs as scopes or claim behavior not present in the commit.
+- Review staged files before committing; never commit secrets, real .env values, caches, or generated APKs.
+- Preserve existing history. Do not amend, rebase, or force-push unless explicitly requested.
+- Do not add hooks, dependencies, or release automation merely to enforce these guidelines unless requested.
+
+Examples:
+- `feat(auth): add password visibility controls`
+- `fix(auth): prevent duplicate logout requests`
+- `test(auth): cover registration and login with emulator`
+- `docs(workflow): document submission checks`
