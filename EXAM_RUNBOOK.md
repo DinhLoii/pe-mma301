@@ -23,8 +23,8 @@ Read docs/SRS.md and the verbatim docs/EXAM_SPEC.txt. The actual app is CineList
 
 GitHub: https://github.com/DinhLoii/pe-mma301
 Firebase: pe-mma301-522a4
-Final APK build: https://expo.dev/accounts/dinhloii/projects/pe-mma301/builds/dd26b0a8-b371-4d7d-91bb-c473739dc5e4
-Application source commit: 7be3ed84204c5693d69e10c34117c7cc519719bf
+Final APK build: https://expo.dev/accounts/dinhloii/projects/pe-mma301/builds/4bd7edd9-eca3-4926-bd17-6924229f1548
+Application source commit: bc83bf435bf8a33a25241746c9caa7f61c07f000
 Later documentation-only commits do not change the APK application source.
 
 QE190167/ is the submission folder. It contains QE190167.docx and QE190167.zip. Only wrap this folder in another ZIP if the upload system requires one file. Do not submit node_modules or the entire project directory.
