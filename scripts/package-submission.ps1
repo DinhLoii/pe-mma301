@@ -8,8 +8,8 @@ $taskZip = Join-Path $taskOut "$StudentCode.zip"
 $taskTemp = Join-Path $taskOut "$StudentCode.zip.tmp"
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$taskFiles = @('package.json','package-lock.json','app.json','eas.json','tsconfig.json','expo-env.d.ts','eslint.config.js','.gitignore','.easignore','.env.example','.firebaserc','firebase.json','firestore.rules','firestore.indexes.json','README.md','LICENSE','EXAM_RUNBOOK.md','submission.example.json')
-$taskFolders = @('src','scripts','tests','.github','assets','docs')
+$taskFiles = @('package.json','package-lock.json','app.json','eas.json','tsconfig.json','expo-env.d.ts','eslint.config.js','.gitignore','.easignore','.env.example','.firebaserc','firebase.json','firestore.rules','firestore.indexes.json','README.md','LICENSE','EXAM_RUNBOOK.md','submission.example.json','AGENTS.md')
+$taskFolders = @('src','scripts','tests','.github','assets','docs','.cursor')
 if (Test-Path -LiteralPath $taskTemp) { Remove-Item -LiteralPath $taskTemp }
 $taskArchive = [System.IO.Compression.ZipFile]::Open($taskTemp, [System.IO.Compression.ZipArchiveMode]::Create)
 try {
