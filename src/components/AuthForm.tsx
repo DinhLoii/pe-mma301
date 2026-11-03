@@ -80,7 +80,7 @@ export function AuthForm({ register = false }: { register?: boolean }) {
             autoComplete="new-password" returnKeyType="go" onSubmitEditing={submit} /> : null}
           {error || sessionError ? <Text testID="error-auth" accessibilityRole="alert" accessibilityLiveRegion="polite" style={styles.error}>{error || sessionError}</Text> : null}
           <Button testID={register ? 'register-button' : 'login-button'}
-            label={busy ? 'Please waitâ€¦' : register ? 'Register' : 'Login'} onPress={submit} disabled={busy || Boolean(user)} />
+            label={busy ? 'Please wait...' : register ? 'Register' : 'Login'} onPress={submit} disabled={busy || Boolean(user)} />
         </View>
       )}
       <Button label={user ? 'Go to List' : 'Back to Home'} secondary disabled={busy}

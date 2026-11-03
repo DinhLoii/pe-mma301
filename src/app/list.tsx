@@ -36,7 +36,7 @@ export default function List() {
   return <Page testID="list-screen">
     <View style={[styles.row, { justifyContent: 'space-between' }]}>
       <View style={{ flex: 1, minWidth: 120 }}><Text style={styles.brand}>CineList</Text><Text testID="session-email" style={styles.muted}>{user.email}</Text></View>
-      <Button testID="logout-button" label={busy ? 'Signing outâ€¦' : 'Logout'} secondary disabled={busy} onPress={logout} />
+      <Button testID="logout-button" label={busy ? 'Signing out...' : 'Logout'} secondary disabled={busy} onPress={logout} />
     </View>
     <Text style={styles.title}>Your watchlist</Text>
     <View style={styles.row}><Button label={showForm ? 'Close form' : 'Add Movie'} onPress={() => { setShowForm(v => !v); setAdded(false); }} /><Button label={showFilters ? 'Hide filters' : 'Filters and search'} secondary onPress={() => setShowFilters(v => !v)} /></View>
