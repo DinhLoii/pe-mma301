@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { GENRES, STATUSES, Movie, MovieValues, emptyMovie, movieValues, validateMovie } from '@/domain/movies';
 import { movieError } from '@/api/movies';
+import { RatingPicker } from './RatingStars';
 import { Button, Field, Select, styles } from './ui';
 
 export function MovieForm({ movie, onSave, onCancel }: { movie?: Movie; onSave: (values: MovieValues) => Promise<void>; onCancel?: () => void }) {
@@ -31,6 +32,7 @@ export function MovieForm({ movie, onSave, onCancel }: { movie?: Movie; onSave: 
     <Field testID="director" label="Director" value={values.director} onChangeText={v => change('director', v)} editable={!busy} error={errors.director} placeholder="Directed by" />
     <Select testID="genre" label="Genre" value={values.genre} options={['', ...GENRES]} onChange={v => change('genre', v)} error={errors.genre} disabled={busy} />
     <Select testID="status" label="Status" value={values.status} options={['', ...STATUSES]} onChange={v => change('status', v)} error={errors.status} disabled={busy} />
+    <RatingPicker value={values.rating} onChange={v => change('rating', v)} disabled={busy} />
     <Field testID="rating" label="Rating (optional, 0–5)" value={values.rating} onChangeText={v => change('rating', v)} editable={!busy} error={errors.rating} keyboardType="numeric" placeholder="Not rated" />
     <Field testID="notes" label="Notes (optional)" value={values.notes} onChangeText={v => change('notes', v)} editable={!busy} error={errors.notes} multiline placeholder="A thought, a recommendation, a reason to watch…" />
     {error ? <Text testID="error-movie" accessibilityRole="alert" style={styles.error}>{error}</Text> : null}

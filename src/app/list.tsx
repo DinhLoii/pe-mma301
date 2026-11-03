@@ -9,6 +9,8 @@ import { authErrorMessage } from '@/domain/auth';
 import { GENRES, STATUSES, emptyFilters, movieSummary, visibleMovies } from '@/domain/movies';
 import { saveMovie } from '@/api/movies';
 import { MovieForm } from '@/components/MovieForm';
+import { MovieArtwork } from '@/components/MovieArtwork';
+import { RatingStars } from '@/components/RatingStars';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { Button, Busy, Field, Page, Select, colors, styles } from '@/components/ui';
 
@@ -38,7 +40,7 @@ export default function List() {
       <View style={{ flex: 1, minWidth: 120 }}><Text style={styles.brand}>CineList</Text><Text testID="session-email" style={styles.muted}>{user.email}</Text></View>
       <Button testID="logout-button" label={busy ? 'Signing out...' : 'Logout'} secondary disabled={busy} onPress={logout} />
     </View>
-    <Text style={styles.title}>Your watchlist</Text>
+    <View style={{ gap: 5 }}><Text style={styles.kicker}>A PRIVATE COLLECTION</Text><Text style={styles.title}>Your watchlist</Text><Text style={styles.muted}>Stories to discover. Favorites to keep.</Text></View>
     <View style={styles.row}><Button label={showForm ? 'Close form' : 'Add Movie'} onPress={() => { setShowForm(v => !v); setAdded(false); }} /><Button label={showFilters ? 'Hide filters' : 'Filters and search'} secondary onPress={() => setShowFilters(v => !v)} /></View>
     {added ? <Text testID="movie-success" accessibilityLiveRegion="polite" style={styles.success}>Movie added</Text> : null}
     {showForm ? <MovieForm onSave={async values => { await saveMovie(user.uid, values); setAdded(true); setShowForm(false); }} onCancel={() => setShowForm(false)} /> : null}
@@ -53,13 +55,18 @@ export default function List() {
     {error ? <Text testID="error-movie" style={styles.error}>{error}</Text> : null}
     {loadError ? <View style={styles.card}><Text style={styles.error}>{loadError}</Text><Button label="Retry" onPress={retry} /></View> : loading ? <ActivityIndicator accessibilityLabel="Loading movies" color={colors.accent} /> : <>
       <Text style={styles.heading}>The collection</Text>
-      {visible.length === 0 ? <View style={styles.card}><Text testID="movies-empty" style={styles.heading}>No movies found</Text><Text style={styles.muted}>Add a movie below or try clearing your filters.</Text></View> : visible.map((movie, i) => <View testID="movie-item" key={movie.id} style={styles.card}>
-        <View style={[styles.row, { flexWrap: 'nowrap', alignItems: 'flex-start' }]}>
-          <Pressable accessibilityRole="button" accessibilityLabel={`Open ${movie.title}`} onPress={() => router.push({ pathname: '/movie/[id]', params: { id: movie.id } })} style={{ flex: 1, gap: 5 }}>
-            <Text style={styles.muted}>{String(i + 1).padStart(2, '0')} / {movie.genre.toUpperCase()}</Text><Text style={styles.heading}>{movie.title}</Text><Text style={styles.muted}>{movie.director}</Text>
-          </Pressable><FavoriteButton movie={movie} onError={setError} />
+      {visible.length === 0 ? <View style={styles.card}><Text testID="movies-empty" style={styles.heading}>No movies found</Text><Text style={styles.muted}>Add a movie below or try clearing your filters.</Text></View> : visible.map(movie => <View testID="movie-item" key={movie.id} style={[styles.card, { padding: 14 }]}>
+        <View style={{ flexDirection: 'row', gap: 14, alignItems: 'flex-start' }}>
+          <Pressable accessibilityRole="button" accessibilityLabel={`Open ${movie.title} poster`} onPress={() => router.push({ pathname: '/movie/[id]', params: { id: movie.id } })}><MovieArtwork movie={movie} /></Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel={`Open ${movie.title}`} onPress={() => router.push({ pathname: '/movie/[id]', params: { id: movie.id } })} style={{ flex: 1, gap: 5, minWidth: 0 }}>
+            <Text style={styles.kicker}>{movie.genre.toUpperCase()}</Text>
+            <Text style={{ color: colors.ink, fontWeight: '700', fontSize: 18, lineHeight: 23 }}>{movie.title}</Text>
+            <Text style={{ color: colors.muted, fontSize: 13, lineHeight: 18 }}>{movie.director}</Text>
+            <RatingStars rating={movie.rating} />
+          </Pressable>
+          <FavoriteButton movie={movie} onError={setError} />
         </View>
-        <View style={[styles.row, { justifyContent: 'space-between' }]}><Text style={styles.badge}>{movie.status}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Details for ${movie.title}`} onPress={() => router.push({ pathname: '/movie/[id]', params: { id: movie.id } })} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: colors.accent, fontWeight: '600' }}>View details →</Text></Pressable></View>
+        <View style={[styles.row, { justifyContent: 'space-between' }]}><Text style={styles.badge}>{movie.status}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Details for ${movie.title}`} onPress={() => router.push({ pathname: '/movie/[id]', params: { id: movie.id } })} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: colors.accent, fontWeight: '600', fontSize: 13 }}>View details →</Text></Pressable></View>
       </View>)}
     </>}
     <View testID="summary" style={styles.card}>

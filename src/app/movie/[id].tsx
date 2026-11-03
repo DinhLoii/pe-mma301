@@ -5,6 +5,8 @@ import { useSession } from '@/context/Session';
 import { useMovies } from '@/context/Movies';
 import { deleteMovie, movieError, saveMovie } from '@/api/movies';
 import { MovieForm } from '@/components/MovieForm';
+import { MovieArtwork } from '@/components/MovieArtwork';
+import { RatingStars } from '@/components/RatingStars';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { Button, Busy, Page, styles } from '@/components/ui';
@@ -45,9 +47,12 @@ export default function Detail() {
       } finally { setTransition(false); }
     }} /> : <>
       <View style={styles.card}>
-        <Text style={styles.title}>{movie.title}</Text><Text style={styles.text}>Directed by {movie.director}</Text>
-        <View style={styles.row}><Text style={styles.badge}>{movie.genre}</Text><Text style={styles.badge}>{movie.status}</Text></View>
-        <Text style={styles.label}>Rating</Text><Text style={styles.text}>{movie.rating === undefined ? 'Not rated' : `${movie.rating} / 5`}</Text>
+        <View style={{ flexDirection: 'row', gap: 18, alignItems: 'flex-start' }}>
+          <MovieArtwork movie={movie} width={108} height={162} />
+          <View style={{ flex: 1, gap: 10 }}><Text style={styles.kicker}>{movie.genre.toUpperCase()}</Text><Text style={[styles.title, { fontSize: 27, lineHeight: 32 }]}>{movie.title}</Text><Text style={styles.muted}>Directed by {movie.director}</Text><Text style={[styles.badge, { alignSelf: 'flex-start' }]}>{movie.status}</Text></View>
+        </View>
+        <View style={{ height: 1, backgroundColor: '#e9e4da', marginVertical: 5 }} />
+        <Text style={styles.label}>Your rating</Text><RatingStars rating={movie.rating} large />
         <Text style={styles.label}>Notes</Text><Text style={styles.text}>{movie.notes || 'No notes yet.'}</Text>
         <View style={styles.row}><FavoriteButton movie={movie} onError={setError} /><Text style={styles.muted}>{movie.favorite ? 'In your favorites' : 'Add to favorites'}</Text></View>
       </View>
