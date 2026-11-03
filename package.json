@@ -19,7 +19,8 @@
     "deploy:rules": "firebase deploy --only firestore:rules",
     "setup:eas-env": "node scripts/eas-env.mjs",
     "package:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-submission.ps1",
-    "check:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-submission.ps1"
+    "check:submission": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-submission.ps1",
+    "test:auth": "firebase emulators:exec --only auth --project demo-pe-mma301 \"node --test tests/auth.integration.test.mjs\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
