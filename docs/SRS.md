@@ -35,3 +35,8 @@ Report evidence order: Firebase Users, movies with >=3 owned documents, publishe
 
 ## Submission
 Ordinary folder `QE190167/` contains `QE190167.docx` and `QE190167.zip`. Word starts with the exact seven-field exam template populated with student identity, public GitHub URL, durable completed Expo build URL, Firebase project ID and existing grader credentials. ZIP root contains package.json, lock file, src/components, firestore.rules and blank .env.example. Exclude node_modules, .expo, .git, real .env and all admin keys. Public GitHub and ZIP source must match. APK must contain final implementation. The full authoritative requirement and screenshot wording remain in `EXAM_SPEC.txt`.
+
+## Presentation enhancement
+
+Offline posters are bundled for the sample-film catalog with a neutral fallback for unknown titles. User rating is shown as stars and can be selected through accessible star controls. These additions do not change the Firestore schema, required field names, validation messages or testIDs.
+

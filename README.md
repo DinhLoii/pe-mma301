@@ -34,3 +34,8 @@ Use `<type>(<optional scope>): <description>`, lowercase English imperative desc
 ## License
 
 MIT. See LICENSE, including the retained Expo attribution. Dependencies retain their own licenses.
+
+## Movie presentation
+
+The sample-film catalog has bundled posters that work offline; unknown titles show a neutral film placeholder. Rating stars represent the signed-in user's own 0–5 rating. The form supports star selection, zero and clearing a rating, while keeping the numeric field and exact validation messages. Artwork sources are listed in assets/posters/CREDITS.md.
+
